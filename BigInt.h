@@ -74,10 +74,6 @@ public:
 			out << '-';
 		for (auto num : bi._data) {
 			out << num;
-#ifdef DEBUG
-			out << ' ';
-#endif
-
 		}
 
 		return out;
