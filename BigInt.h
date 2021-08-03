@@ -236,9 +236,24 @@ public:
 			return 0;
 		}
 		else {
-			BigInt result = 1;
-			for (BigInt i = 0; i < rhs; i++)
-				result *= lhs;
+			BigInt result = lhs, curr_pow = 1, pow_by_step = 1;
+			vector<BigInt> multipliers = {lhs};
+			while (curr_pow + pow_by_step <= rhs) {
+				curr_pow += pow_by_step;
+				result *= multipliers.back();
+				multipliers.push_back(multipliers.back() * multipliers.back());
+				pow_by_step *= 2;
+			}
+			multipliers.pop_back();
+			pow_by_step /= 2;
+			while (pow_by_step >= 1) {
+				while (curr_pow + pow_by_step <= rhs) {
+					curr_pow += pow_by_step;
+					result *= multipliers.back();
+				}
+				multipliers.pop_back();
+				pow_by_step /= 2;
+			}
 			return result;
 		}
 	}
