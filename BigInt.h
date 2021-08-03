@@ -37,7 +37,7 @@ public:
 	}
 	friend istream& operator>>(istream& in, BigInt& bi) {
 		string str; in >> str;
-		if (!all_of(next(str.begin()), str.end(), isdigit) or str[0] == '-' and str.length() == 1
+		if (!all_of(next(str.begin()), str.end(), [](char c) { return c >= '0' and c <= '9'; }) or str[0] == '-' and str.length() == 1
 			or (str[0] > '9' or str[0] < '0') and str[0] != '-')
 			throw runtime_error("Incorrect format of BigInt\n");
 		size_t a;
@@ -241,6 +241,10 @@ public:
 				result *= lhs;
 			return result;
 		}
+	}
+	friend BigInt operator^=(BigInt& lhs, const BigInt& rhs) {
+		lhs = lhs ^ rhs;
+		return lhs;
 	}
 	friend bool operator<(const BigInt& lhs, const BigInt& rhs) {
 		if (lhs._is_neg != rhs._is_neg) {
